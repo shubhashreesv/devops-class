@@ -1,0 +1,88 @@
+Started by user Shubha Shree
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Pipeline1
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone Code)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/shubhashreesv/my-nginx-app.git
+ > git init /var/lib/jenkins/workspace/Pipeline1 # timeout=10
+Fetching upstream changes from https://github.com/shubhashreesv/my-nginx-app.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/shubhashreesv/my-nginx-app.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/shubhashreesv/my-nginx-app.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision e2166da86cc2a80f389efe6cacce86a7cd69c6ff (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f e2166da86cc2a80f389efe6cacce86a7cd69c6ff # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b main e2166da86cc2a80f389efe6cacce86a7cd69c6ff # timeout=10
+Commit message: "Restructured Proj directory"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] sh
++ docker build -t my-nginx-app .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 95B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:latest
+#2 DONE 4.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208
+#4 resolve docker.io/library/nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208 0.1s done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 12.63MB 0.5s done
+#5 DONE 0.6s
+
+#4 [1/2] FROM docker.io/library/nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208
+#4 CACHED
+
+#6 [2/2] COPY . /usr/share/nginx/html
+#6 DONE 0.5s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 1.3s done
+#7 exporting manifest sha256:8f35ce45426e202b02f04b281df5fbb260d2cd9bb88ecaafeb46b9790dbd483d 0.0s done
+#7 exporting config sha256:853ea4935ee5295e0dd9a34963344b2a98d1d61e562d2209959ec4fdd389aa7e 0.0s done
+#7 exporting attestation manifest sha256:af2e40468d63a6e873629073c52610dec603de0bafcd41e6ad84b0b9da908831 0.0s done
+#7 exporting manifest list sha256:17cb0e9385d5d5d5585f94865bba04739c438e3c1fc3690f609290ecfa078b0f 0.0s done
+#7 naming to docker.io/library/my-nginx-app:latest done
+#7 unpacking to docker.io/library/my-nginx-app:latest
+#7 unpacking to docker.io/library/my-nginx-app:latest 0.5s done
+#7 DONE 1.9s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Container)
+[Pipeline] sh
++ docker rm -f nginx-container
+nginx-container
+[Pipeline] sh
++ docker run -d -p 8085:80 --name nginx-container my-nginx-app
+1842910c76b17d6a5fdc10427cabb3aceec5c269af97784fc1da79997c73999f
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
